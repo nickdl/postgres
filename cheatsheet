@@ -1,0 +1,28 @@
+# commands
+\l \du \dt \c \q
+
+
+# create user
+sudo -u postgres createuser --interactive
+    username
+sudo -u postgres psql
+    \password username
+
+# create db, delete db, connect @ db
+sudo -u postgres createdb dbname
+sudo -u postgres dropdb dbname
+psql -U username -h localhost -d dbname
+
+
+# connect, dump, restore
+DB_URL=postgresql://username:password@netloc:port/dbname DUMP=dump-$(date +%F); +command
+
+# connect
+psql DB_URL
+
+# dump
+pg_dump -Fc $DB_URL > $DUMP
+
+# import
+pg_restore -d $DB_URL $DUMP
+pg_restore -d $DB_URL -t table_name --data-only $DUMP
